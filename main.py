@@ -4,6 +4,7 @@ import numpy as np
 
 from model import DCGAN
 from utils import pp, visualize, to_json, show_all_variables
+from experiment import *
 
 import tensorflow as tf
 
@@ -80,9 +81,16 @@ def main(_):
     show_all_variables()
     if FLAGS.is_train:
       dcgan.train(FLAGS)
+      # Below is codes for visualization
+      OPTION = 1   # generate 100 test image
+      visualize(sess, dcgan, FLAGS, OPTION)
     else:
-      if not dcgan.load(FLAGS.checkpoint_dir):
-        raise Exception("[!] Train a model first, then run test mode")
+      # if not dcgan.load(FLAGS.checkpoint_dir):
+      #   raise Exception("[!] Train a model first, then run test mode")
+      # else:
+      iteration = 10000
+      project_x_to_z(dcgan, iteration, sess, FLAGS)
+
       
 
     # to_json("./web/js/layers.js", [dcgan.h0_w, dcgan.h0_b, dcgan.g_bn0],
@@ -91,9 +99,6 @@ def main(_):
     #                 [dcgan.h3_w, dcgan.h3_b, dcgan.g_bn3],
     #                 [dcgan.h4_w, dcgan.h4_b, None])
 
-    # Below is codes for visualization
-    OPTION = 1
-    visualize(sess, dcgan, FLAGS, OPTION)
 
 if __name__ == '__main__':
   tf.app.run()
