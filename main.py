@@ -88,8 +88,13 @@ def main(_):
       # if not dcgan.load(FLAGS.checkpoint_dir):
       #   raise Exception("[!] Train a model first, then run test mode")
       # else:
-      iteration = 10000
-      project_x_to_z(dcgan, iteration, sess, FLAGS)
+      # iteration = 10000
+      # project_x_to_z(dcgan, iteration, sess, FLAGS)
+
+      projector = Sketch2Image(dcgan, FLAGS)
+      projector.build_model()
+      projector.train(iteration=100)
+
 
       
 
